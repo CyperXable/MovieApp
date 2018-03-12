@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.daniel.movieapp.ApiInterface;
@@ -24,13 +25,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchFragment extends Fragment {
 
     public static String BASE_URL = "https://api.themoviedb.org";
-    public static String CATEGORY = "movie";
     public static String API_KEY = "5efee822a961bc8a4ce567b867dfa166";
     public static String QUERY = "batman";
     public static int PAGE = 1;
     private String queryValue;
 
     private TextView myTextView;
+    private ProgressBar mLoadingProgress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class SearchFragment extends Fragment {
 
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
         QUERY=queryValue;
-        Call<FoundMovies> call = myInterface.foundMovies(CATEGORY, API_KEY, QUERY, PAGE);
+        Call<FoundMovies> call = myInterface.foundMovies(API_KEY, QUERY, PAGE);
 
         call.enqueue(new Callback<FoundMovies>() {
             // similar to android async but Retrofit handles it all without inner class
@@ -59,6 +60,7 @@ public class SearchFragment extends Fragment {
                 FoundMovies.ResultsBean firstMovie = foundMovies.get(0);
 
                 myTextView.setText(firstMovie.getTitle());
+                mLoadingProgress.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -74,6 +76,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         myTextView = (TextView)v.findViewById(R.id.my_tv);
+        mLoadingProgress = (ProgressBar) v.findViewById(R.id.pbLoading);
         return v;
     }
 

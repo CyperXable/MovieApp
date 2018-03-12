@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.daniel.movieapp.ApiInterface;
@@ -31,6 +32,7 @@ public class HomeFragment extends Fragment {
     public static int PAGE = 1;
 
     private TextView myTextView;
+    private ProgressBar mLoadingProgress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class HomeFragment extends Fragment {
                 PopularMovies.ResultsBean firstMovie = lisOfMovies.get(0);
 
                 myTextView.setText(firstMovie.getTitle());
+                mLoadingProgress.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
@@ -70,6 +74,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         myTextView = (TextView)v.findViewById(R.id.my_tv);
+        mLoadingProgress = (ProgressBar) v.findViewById(R.id.pbLoading);
         return v;
     }
 

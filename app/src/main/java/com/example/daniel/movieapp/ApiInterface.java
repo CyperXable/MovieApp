@@ -17,13 +17,10 @@ public interface ApiInterface {
         @Query("language") String language,
         @Query("page") int page
     );
-    @GET("/3/search/{category}")
+    @GET("/3/search/movie")
     Call<FoundMovies> foundMovies(
-        @Path("category") String category,
         @Query("api_key") String apiKey,
         @Query("query") String query,
         @Query("page") int page
     );
-
-//    https://api.themoviedb.org/3/movie/popular?api_key=5efee822a961bc8a4ce567b867dfa166&language=en-US&page=1
 }
