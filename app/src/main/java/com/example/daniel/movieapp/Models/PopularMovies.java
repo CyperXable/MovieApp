@@ -1,4 +1,4 @@
-package com.example.daniel.movieapp;
+package com.example.daniel.movieapp.Models;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Luca Casa on 09-03-2018.
  */
 
-public class MovieResults {
+public class PopularMovies {
 
     private int page;
     private int total_results;

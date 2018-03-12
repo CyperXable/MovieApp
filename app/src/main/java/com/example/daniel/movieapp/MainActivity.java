@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        Bundle bundle = new Bundle();
+        bundle.putString("query", query);
+        currentFragment = new SearchFragment();
+        currentFragment.setArguments(bundle);
+        manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack(null).commit();
         return false;
     }
 
