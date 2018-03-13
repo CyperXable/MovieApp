@@ -5,12 +5,12 @@
     tools:context="com.example.daniel.movieapp.Fragments.SearchFragment"
     android:background="@android:color/holo_purple">
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/my_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="50sp" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewMovieList">
 
+    </android.support.v7.widget.RecyclerView>
     <ProgressBar
         android:id="@+id/pbLoading"
         style="?android:attr/progressBarStyle"

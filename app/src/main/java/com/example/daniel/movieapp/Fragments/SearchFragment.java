@@ -4,18 +4,19 @@ package com.example.daniel.movieapp.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.example.daniel.movieapp.Adapters.SearchMovieAdapter;
 import com.example.daniel.movieapp.ApiInterface;
 import com.example.daniel.movieapp.Models.FoundMovies;
 import com.example.daniel.movieapp.R;
-
-import java.util.List;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,8 +31,12 @@ public class SearchFragment extends Fragment {
     public static int PAGE = 1;
     private String queryValue;
 
-    private TextView myTextView;
-    private ProgressBar mLoadingProgress;
+
+    @BindView(R.id.pbLoading)
+    ProgressBar mLoadingProgress;
+
+    @BindView(R.id.listViewMovieList)
+    RecyclerView listViewMovieList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +51,14 @@ public class SearchFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
+
+
+
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
-        QUERY=queryValue;
+
+        QUERY = queryValue;
+
         Call<FoundMovies> call = myInterface.foundMovies(API_KEY, QUERY, PAGE);
 
         call.enqueue(new Callback<FoundMovies>() {
@@ -55,11 +66,11 @@ public class SearchFragment extends Fragment {
             @Override
             public void onResponse(Call<FoundMovies> call, Response<FoundMovies> response) {
                 FoundMovies rootResults = response.body();
-                System.out.print(rootResults);
-                List<FoundMovies.ResultsBean> foundMovies = rootResults.getResults();
-                FoundMovies.ResultsBean firstMovie = foundMovies.get(0);
 
-                myTextView.setText(firstMovie.getTitle());
+                SearchMovieAdapter adapter = new SearchMovieAdapter(rootResults.getResults());
+                StaggeredGridLayoutManager mStaggeredGridManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                listViewMovieList.setLayoutManager(mStaggeredGridManager);
+                listViewMovieList.setAdapter(adapter);
                 mLoadingProgress.setVisibility(View.INVISIBLE);
             }
 
@@ -75,8 +86,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
-        myTextView = (TextView)v.findViewById(R.id.my_tv);
-        mLoadingProgress = (ProgressBar) v.findViewById(R.id.pbLoading);
+        ButterKnife.bind(this, v);
         return v;
     }
 
