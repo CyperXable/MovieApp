@@ -1,12 +1,16 @@
 package com.example.daniel.movieapp.Adapters;
 
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.daniel.movieapp.Fragments.DetailsFragment;
+import com.example.daniel.movieapp.MainActivity;
 import com.example.daniel.movieapp.Models.FoundMovies;
 import com.example.daniel.movieapp.R;
 
@@ -18,6 +22,7 @@ import butterknife.ButterKnife;
 public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.SearchMovieViewHolder> {
 
     List<FoundMovies.ResultsBean> foundMoviesItems;
+    private int positionMovie;
 
     public SearchMovieAdapter(List<FoundMovies.ResultsBean> _foundMoviesItems) {
         foundMoviesItems = _foundMoviesItems;
@@ -33,6 +38,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
     @Override
     public void onBindViewHolder(SearchMovieViewHolder holder, int position) {
         holder.tvTitle.setText(foundMoviesItems.get(position).getTitle());
+        positionMovie = position;
     }
 
     @Override
@@ -40,7 +46,10 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
         return foundMoviesItems.size();
     }
 
-    public static class SearchMovieViewHolder extends RecyclerView.ViewHolder {
+    public class SearchMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        android.support.v4.app.FragmentManager manager;
+        DetailsFragment currentFragment;
+
         @BindView(R.id.cardViewMovieList)
         CardView cardViewMovieList;
 
@@ -52,8 +61,26 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
 
         SearchMovieViewHolder(View viewItem) {
             super(viewItem);
-
             ButterKnife.bind(this, viewItem);
+            viewItem.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Bundle bundle = new Bundle();
+
+            bundle.putString("nameOfMovie", foundMoviesItems.get(0).getTitle());
+            bundle.putString("plotSynopsis", foundMoviesItems.get(0).getOverview());
+            bundle.putDouble("userRating", foundMoviesItems.get(0).getPopularity());
+            bundle.putString("releaseDate", foundMoviesItems.get(0).getRelease_date());
+            bundle.putString("imageView", foundMoviesItems.get(0).getPoster_path());
+            Log.d("Debug", String.valueOf(positionMovie));
+            //bundle.putStringArrayList("editText", foundMoviesItems);
+
+            currentFragment = new DetailsFragment();
+            currentFragment.setArguments(bundle);
+            manager = ((MainActivity)view.getContext()).getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack(null).commit();
         }
     }
 }
