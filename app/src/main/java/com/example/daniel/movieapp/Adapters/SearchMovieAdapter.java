@@ -72,7 +72,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
 
             bundle.putString("nameOfMovie", foundMoviesItems.get(position).getTitle());
             bundle.putString("plotSynopsis", foundMoviesItems.get(position).getOverview());
-            bundle.putDouble("userRating", foundMoviesItems.get(position).getPopularity());
+            bundle.putDouble("userRating", foundMoviesItems.get(position).getVote_average());
             bundle.putString("releaseDate", foundMoviesItems.get(position).getRelease_date());
             bundle.putString("imageView", foundMoviesItems.get(position).getPoster_path());
             Log.d("Debug", String.valueOf(positionMovie));
