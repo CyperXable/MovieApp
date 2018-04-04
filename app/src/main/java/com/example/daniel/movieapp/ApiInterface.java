@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface ApiInterface {
     @GET("/3/movie/{category}")
     Call<PopularMovies> listOfMovies(
-        @Path("category") String category,
+            @Path("category") String category,
         @Query("api_key") String apiKey,
         @Query("language") String language,
         @Query("page") int page
@@ -22,5 +22,10 @@ public interface ApiInterface {
         @Query("api_key") String apiKey,
         @Query("query") String query,
         @Query("page") int page
+    );
+    @GET("/t/p/{poster_size}/{poster_path}")
+    Call<FoundPoster> foundPoster (
+            @Query("poster_size") String posterSize,
+            @Query("poster_path") String posterPath
     );
 }

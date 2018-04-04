@@ -68,12 +68,13 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
+            int position = getAdapterPosition();
 
-            bundle.putString("nameOfMovie", foundMoviesItems.get(0).getTitle());
-            bundle.putString("plotSynopsis", foundMoviesItems.get(0).getOverview());
-            bundle.putDouble("userRating", foundMoviesItems.get(0).getPopularity());
-            bundle.putString("releaseDate", foundMoviesItems.get(0).getRelease_date());
-            bundle.putString("imageView", foundMoviesItems.get(0).getPoster_path());
+            bundle.putString("nameOfMovie", foundMoviesItems.get(position).getTitle());
+            bundle.putString("plotSynopsis", foundMoviesItems.get(position).getOverview());
+            bundle.putDouble("userRating", foundMoviesItems.get(position).getPopularity());
+            bundle.putString("releaseDate", foundMoviesItems.get(position).getRelease_date());
+            bundle.putString("imageView", foundMoviesItems.get(position).getPoster_path());
             Log.d("Debug", String.valueOf(positionMovie));
             //bundle.putStringArrayList("editText", foundMoviesItems);
 

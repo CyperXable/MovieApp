@@ -13,6 +13,12 @@ import com.example.daniel.movieapp.R;
 
 public class DetailsFragment extends Fragment {
 
+    public static String BASE_URL = "https://image.tmdb.org";
+    public static String API_KEY = "5efee822a961bc8a4ce567b867dfa166";
+    public static String QUERY;
+w500
+
+
     TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
     ImageView imageView;
 
@@ -23,6 +29,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QUERY = getArguments().getString("posterPath");
     }
 
     @Override
