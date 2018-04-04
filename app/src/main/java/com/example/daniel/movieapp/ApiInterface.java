@@ -23,9 +23,4 @@ public interface ApiInterface {
         @Query("query") String query,
         @Query("page") int page
     );
-    @GET("/t/p/{poster_size}/{poster_path}")
-    Call<FoundPoster> foundPoster (
-            @Query("poster_size") String posterSize,
-            @Query("poster_path") String posterPath
-    );
 }
