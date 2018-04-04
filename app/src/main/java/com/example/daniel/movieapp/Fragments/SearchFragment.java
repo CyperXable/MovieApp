@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.example.daniel.movieapp.Adapters.SearchMovieAdapter;
 import com.example.daniel.movieapp.ApiInterface;
+import com.example.daniel.movieapp.MainActivity;
 import com.example.daniel.movieapp.Models.FoundMovies;
 import com.example.daniel.movieapp.R;
 import butterknife.BindView;
@@ -50,10 +52,6 @@ public class SearchFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-
-
-
 
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 

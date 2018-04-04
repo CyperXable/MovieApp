@@ -20,7 +20,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        currentFragment = new HomeFragment();
         manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack(null).commit();
+
     }
 
     @Override

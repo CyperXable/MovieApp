@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.daniel.movieapp.Fragments.DetailsFragment;
 import com.example.daniel.movieapp.MainActivity;
 import com.example.daniel.movieapp.Models.FoundMovies;
@@ -20,6 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.SearchMovieViewHolder> {
+
+    String posterPath;
+    String internetUrl;
 
     List<FoundMovies.ResultsBean> foundMoviesItems;
     private int positionMovie;
@@ -38,8 +43,15 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
     @Override
     public void onBindViewHolder(SearchMovieViewHolder holder, int position) {
         holder.tvTitle.setText(foundMoviesItems.get(position).getTitle());
+        holder.tvSubtitle1.setText(foundMoviesItems.get(position).getRelease_date());
+        Double result = foundMoviesItems.get(position).getVote_average();
+        String stringdouble= Double.toString(result);
+        holder.tvSubtitle2.setText("Rating: " + stringdouble);
         positionMovie = position;
-    }
+        posterPath = foundMoviesItems.get(position).getPoster_path();
+        internetUrl = "https://image.tmdb.org/t/p/w500" + posterPath;
+        Glide.with(holder.tvImage.getContext()).load(internetUrl).placeholder(R.drawable.media_play).into(holder.tvImage);
+  }
 
     @Override
     public int getItemCount() {
@@ -53,12 +65,17 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
         @BindView(R.id.cardViewMovieList)
         CardView cardViewMovieList;
 
-        //@Bind(R.id.imageViewMovieListItem)
-        //ImageView imageViewMovieListItem;
-
         @BindView(R.id.tvTitle)
         TextView tvTitle;
 
+        @BindView(R.id.tvSubtitle1)
+        TextView tvSubtitle1;
+
+        @BindView(R.id.tvSubtitle2)
+        TextView tvSubtitle2;
+
+        @BindView(R.id.imageView)
+        ImageView tvImage;
         SearchMovieViewHolder(View viewItem) {
             super(viewItem);
             ButterKnife.bind(this, viewItem);
@@ -75,8 +92,6 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
             bundle.putDouble("userRating", foundMoviesItems.get(position).getVote_average());
             bundle.putString("releaseDate", foundMoviesItems.get(position).getRelease_date());
             bundle.putString("imageView", foundMoviesItems.get(position).getPoster_path());
-            Log.d("Debug", String.valueOf(positionMovie));
-            //bundle.putStringArrayList("editText", foundMoviesItems);
 
             currentFragment = new DetailsFragment();
             currentFragment.setArguments(bundle);

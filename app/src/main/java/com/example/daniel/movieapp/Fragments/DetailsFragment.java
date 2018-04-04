@@ -52,16 +52,14 @@ public class DetailsFragment extends Fragment {
 
         posterPath = getArguments().getString("imageView");
         internetUrl = "https://image.tmdb.org/t/p/w500" + posterPath;
-        Glide.with(getContext()).load(internetUrl).into(imageView);
-
+        Glide.with(getContext()).load(internetUrl).centerCrop().into(imageView);
         movieTitle.setText(getArguments().getString("nameOfMovie"));
         plotSynopsis.setText(getArguments().getString("plotSynopsis"));
         Double result = getArguments().getDouble("userRating");
         String stringdouble= Double.toString(result);
-        userRating.setText(stringdouble);
+        userRating.setText("Rating: " + stringdouble);
         releaseDate.setText(getArguments().getString("releaseDate"));
 
         return v;
     }
-
 }
