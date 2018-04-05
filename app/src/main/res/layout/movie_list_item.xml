@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_text"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/no_text"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/subTitle_size" />
 
                 <TextView
@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     android:text="@string/no_text"
                     android:textAlignment="textEnd"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/subTitle_size" />
             </LinearLayout>
         </LinearLayout>
