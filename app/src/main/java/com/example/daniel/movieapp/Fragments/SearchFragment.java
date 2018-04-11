@@ -43,7 +43,26 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        retrofitSearch();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_search, container, false);
+        ButterKnife.bind(this, v);
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrofitSearch();
+
+    }
+
+    public void retrofitSearch() {
         if (getArguments() != null) {
             queryValue = getArguments().getString("query");
         }
@@ -79,19 +98,4 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_search, container, false);
-        ButterKnife.bind(this, v);
-        return v;
-    }
-
-
-    @Override
-    public void onPause() {
-        //Do nothing
-        super.onPause();
-    }
 }

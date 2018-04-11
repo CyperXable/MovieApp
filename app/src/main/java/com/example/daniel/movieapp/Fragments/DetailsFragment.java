@@ -62,4 +62,9 @@ public class DetailsFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
