@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.daniel.movieapp.Fragments.DetailsFragment;
+import com.example.daniel.movieapp.Fragments.SearchFragment;
 import com.example.daniel.movieapp.MainActivity;
 import com.example.daniel.movieapp.Models.FoundMovies;
 import com.example.daniel.movieapp.R;

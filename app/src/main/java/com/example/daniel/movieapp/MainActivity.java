@@ -11,10 +11,11 @@ import android.view.MenuItem;
 
 import com.example.daniel.movieapp.Fragments.*;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity {
 
     FragmentManager manager = getSupportFragmentManager();
     Fragment currentFragment;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
+    private MenuItem searchMenuItem;
+    public MenuItem getSearchMenuItem() {
+        return searchMenuItem;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -32,10 +38,29 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         getMenuInflater().inflate(R.menu.profile_button, menu);
         getMenuInflater().inflate(R.menu.search_bar, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(this);
-        return true;
+        searchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                MenuItem searchMenuItem = getSearchMenuItem();
+                if (searchMenuItem != null) {
+                    searchView.onActionViewCollapsed();
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("query", query);
+                currentFragment = new SearchFragment();
+                currentFragment.setArguments(bundle);
+                manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack("fragment").commit();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -58,17 +83,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        Bundle bundle = new Bundle();
-        bundle.putString("query", query);
-        currentFragment = new SearchFragment();
-        currentFragment.setArguments(bundle);
-        manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack("fragment").commit();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.onActionViewCollapsed();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
