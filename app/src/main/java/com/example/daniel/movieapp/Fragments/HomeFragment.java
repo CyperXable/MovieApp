@@ -37,8 +37,26 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        retrofitCall();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        myTextView = (TextView) v.findViewById(R.id.my_tv);
+        mLoadingProgress = (ProgressBar) v.findViewById(R.id.pbLoading);
+        return v;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrofitCall();
+    }
+
+    public void retrofitCall() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -67,22 +85,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
-        myTextView = (TextView)v.findViewById(R.id.my_tv);
-        mLoadingProgress = (ProgressBar) v.findViewById(R.id.pbLoading);
-        return v;
-    }
-
-
-    @Override
-    public void onPause() {
-        //Do nothing
-        super.onPause();
-    }
-
 }

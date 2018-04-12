@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.daniel.movieapp.Fragments.DetailsFragment;
+import com.example.daniel.movieapp.Fragments.SearchFragment;
 import com.example.daniel.movieapp.MainActivity;
 import com.example.daniel.movieapp.Models.FoundMovies;
 import com.example.daniel.movieapp.R;
@@ -96,7 +97,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
             currentFragment = new DetailsFragment();
             currentFragment.setArguments(bundle);
             manager = ((MainActivity)view.getContext()).getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack(null).commit();
+            manager.beginTransaction().replace(R.id.fragment_main, currentFragment).addToBackStack("fragment").commit();
         }
     }
 }

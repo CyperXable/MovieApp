@@ -30,5 +30,8 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
         return v;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
