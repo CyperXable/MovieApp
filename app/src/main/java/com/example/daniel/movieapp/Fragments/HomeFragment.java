@@ -19,7 +19,6 @@ import com.example.daniel.movieapp.Adapters.PopularMoviesAdapter;
 import com.example.daniel.movieapp.ApiInterface;
 import com.example.daniel.movieapp.Models.PopularMovies;
 import com.example.daniel.movieapp.R;
-import com.example.daniel.movieapp.dummy.DummyContent;
 
 import java.util.List;
 
@@ -53,46 +52,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface myInterface = retrofit.create(ApiInterface.class);
-
-        Call<PopularMovies> call = myInterface.listOfMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
-
-        call.enqueue(new Callback<PopularMovies>() {
-            // similar to android async but Retrofit handles it all without inner class
-            @Override
-            public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
-                PopularMovies rootResults = response.body();
-
-                adapter = new PopularMoviesAdapter(rootResults.getResults());
-                List<PopularMovies.ResultsBean> listOfMovies = rootResults.getResults();
-                PopularMovies.ResultsBean firstMovie = listOfMovies.get(0);
-
-//                popular_movies.setHasFixedSize(true);
-                 StaggeredGridLayoutManager mStaggeredGridManager = new StaggeredGridLayoutManager(2, 1);
-//                GridLayoutManager layoutManager = new GridLayoutManager();
-                popular_movies.setLayoutManager(
-                        mStaggeredGridManager
-//                            layoutManager
-                );
-                adapter = new PopularMoviesAdapter(listOfMovies);
-                popular_movies.setAdapter(adapter);
-              //  myTextView.setText(firstMovie.getTitle());
-                mLoadingProgress.setVisibility(View.INVISIBLE);
-
-            }
-
-            @Override
-            public void onFailure(Call<PopularMovies> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        retrofitSearch();
     }
 
     @Override
@@ -113,9 +73,53 @@ public class HomeFragment extends Fragment {
         //Do nothing
         super.onPause();
     }
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyContent.DummyItem item);
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrofitSearch();
     }
 
+    public void retrofitSearch() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface myInterface = retrofit.create(ApiInterface.class);
+
+        Call<PopularMovies> call = myInterface.listOfMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
+
+        call.enqueue(new Callback<PopularMovies>()
+
+        {
+            // similar to android async but Retrofit handles it all without inner class
+            @Override
+            public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
+                PopularMovies rootResults = response.body();
+
+                adapter = new PopularMoviesAdapter(rootResults.getResults());
+                List<PopularMovies.ResultsBean> listOfMovies = rootResults.getResults();
+                PopularMovies.ResultsBean firstMovie = listOfMovies.get(0);
+
+//                popular_movies.setHasFixedSize(true);
+                StaggeredGridLayoutManager mStaggeredGridManager = new StaggeredGridLayoutManager(2, 1);
+//                GridLayoutManager layoutManager = new GridLayoutManager();
+                popular_movies.setLayoutManager(
+                        mStaggeredGridManager
+//                            layoutManager
+                );
+                adapter = new PopularMoviesAdapter(listOfMovies);
+                popular_movies.setAdapter(adapter);
+                //  myTextView.setText(firstMovie.getTitle());
+                mLoadingProgress.setVisibility(View.INVISIBLE);
+
+            }
+
+            @Override
+            public void onFailure(Call<PopularMovies> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 }

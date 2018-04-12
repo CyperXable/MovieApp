@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.support.v4.app.FragmentManager;
 import com.bumptech.glide.Glide;
 import com.example.daniel.movieapp.Fragments.DetailsFragment;
 import com.example.daniel.movieapp.Fragments.SearchFragment;
@@ -60,7 +60,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
     }
 
     public class SearchMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        android.support.v4.app.FragmentManager manager;
+        FragmentManager manager;
         DetailsFragment currentFragment;
 
         @BindView(R.id.cardViewMovieList)
